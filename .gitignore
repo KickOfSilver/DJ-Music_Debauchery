@@ -1,9 +1,5 @@
+/.venv
+/backup
+/commands/old
 ffmpeg.exe
-bot_de_musica_lixo.zip
-discloud.config
-squarecloud.config
-test.py
-commands/*
-.env
-backup_main_old.py
 config.json
