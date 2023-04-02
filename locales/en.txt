@@ -1,0 +1,4 @@
+# mensagens_en.txt
+voz_necessaria = You need to be in a voice channel to use this command.
+bot_usado_outro_canal = The bot is already being used in another voice channel. You need to be in the same voice channel as the bot to use this command!
+permissao_bot = The bot doesn't have permission to join this voice channel!

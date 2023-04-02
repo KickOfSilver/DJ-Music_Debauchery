@@ -1,62 +1,39 @@
-import asyncio
 import os
+import json
 import discord
-import youtube_dl
-from dotenv import load_dotenv
-
-ffmpeg = "ffmpeg/ffmpeg.exe"
+from functions.commands_check import *
+from functions.bot_profile import *
 
 
-class MyClient(discord.Client):
+# Carregando as informações de configuração do arquivo config.json
+with open("config.json") as f:
+    config = json.load(f)
+
+TOKEN = config["TOKEN"]
+PREFIX = config["PREFIX"]
+
+
+class MusicBot(discord.Client):
+    def __init__(self, intents):
+        super().__init__(intents=intents)
+
     async def on_ready(self):
-        print("Estou pronto")
+        await set_bot_activity(self, PREFIX)
+
+        os.system("cls")
+        print(f"{self.user.name} Online")
 
     async def on_message(self, message):
-        if message.author == self.user:  # ignorar mensagens enviadas pelo bot
+        if message.author == self.user or message.author.bot:
             return
-        if message.content.startswith("!play "):
-            # obter a consulta de pesquisa do usuário
-            query = message.content[6:]
 
-            voice_channel = message.author.voice.channel  # obter o canal de voz do usuário
-            if not voice_channel:  # o usuário não está conectado a um canal de voz
-                await message.channel.send("Você precisa estar em um canal de voz para tocar música!")
+        if message.content.startswith(f"{PREFIX}play"):
+            if not await check_command_message(self, message, audio=True):
                 return
 
-            if message.guild.voice_client is not None:  # o bot já está conectado a um canal de voz
-                await message.channel.send(f"O bot já está sendo usado no canal de voz {message.guild.voice_client.channel.name}!")
-                return  
+            print("feito")
 
-            voice_client = await voice_channel.connect()  # conectar ao canal de voz
-
-            try:
-                # baixar a música do YouTube
-                ydl_opts = {"format": "bestaudio", "noplaylist": "True"}
-                with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-                    info = ydl.extract_info(f"ytsearch:{query}", download=False)[
-                        'entries'][0]
-                    url = info['url']
-                    title = info['title']
-
-                # tocar a música
-                source = discord.FFmpegPCMAudio(
-                    url, executable=ffmpeg)
-                voice_client.play(source)
-                await message.channel.send(f"Tocando: {title}")
-
-                # tocar a próxima música na lista
-                while voice_client.is_playing():
-                    await asyncio.sleep(5)
-                await voice_client.disconnect()
-
-            except Exception as e:
-                await message.channel.send(f"Ocorreu um erro ao tocar a música: {e}")
-                await voice_client.disconnect()
-
-
-load_dotenv()  # carrega as variáveis de ambiente do arquivo .env
-TOKEN = os.getenv("DISCORD_TOKEN")  # obtém o token do Discord do arquivo .env
 
 intents = discord.Intents.all()  # para que o bot possa receber eventos de membros
-client = MyClient(intents=intents)
+client = MusicBot(intents=intents)
 client.run(TOKEN)
