@@ -1,4 +1,4 @@
-async def check_command_message(self, message, audio=False):
+async def check_command_message(self, message, audio=True):
 
     # Verificar se o autor da mensagem está em um canal de voz
     if audio and not message.author.voice:
@@ -6,7 +6,7 @@ async def check_command_message(self, message, audio=False):
         return False
 
     # Verificar se o bot já está em um canal de voz diferente
-    if audio and not message.guild.voice_client is not None and message.author.voice.channel != message.guild.voice_client.channel:
+    if audio and not message.guild.voice_client is None and message.author.voice.channel != message.guild.voice_client.channel:
         await message.channel.send("O bot já está sendo usado em outro canal de voz. Você precisa estar no mesmo canal de voz que o bot para usar este comando!")
         return False
 

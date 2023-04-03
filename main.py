@@ -1,16 +1,24 @@
 import os
 import json
 import discord
+
+# Funções personalizadas
 from functions.commands_check import *
 from functions.bot_profile import *
 
+# Comandos personalizados
+from commands.play import *
 
 # Carregando as informações de configuração do arquivo config.json
 with open("config.json") as f:
     config = json.load(f)
+os.system("cls")
 
+# Configuração do bot
+BOT_ID = config["BOT_ID"]
 TOKEN = config["TOKEN"]
 PREFIX = config["PREFIX"]
+INTENTS = discord.Intents.all()
 
 
 class MusicBot(discord.Client):
@@ -20,7 +28,6 @@ class MusicBot(discord.Client):
     async def on_ready(self):
         await set_bot_activity(self, PREFIX)
 
-        os.system("cls")
         print(f"{self.user.name} Online")
 
     async def on_message(self, message):
@@ -31,9 +38,9 @@ class MusicBot(discord.Client):
             if not await check_command_message(self, message, audio=True):
                 return
 
-            print("feito")
+            await music_search(client, message)
 
 
 intents = discord.Intents.all()  # para que o bot possa receber eventos de membros
-client = MusicBot(intents=intents)
+client = MusicBot(intents=INTENTS)
 client.run(TOKEN)

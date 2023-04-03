@@ -3,3 +3,5 @@
 /commands/old
 ffmpeg.exe
 config.json
+__pycache__
+test.py
