@@ -2,6 +2,7 @@ import os
 import json
 import discord
 from discord import app_commands
+from bot.functions.slash_registration import update_slash_commands
 
 # Importando funções e comandos personalizados
 from bot.functions.commands_check import *
@@ -29,12 +30,12 @@ class MusicBot(discord.Client):
 
     async def on_ready(self):
         await set_bot_activity(self, PREFIX)
+        await update_slash_commands(self)
 
         print(f"{self.user.name} Online")
 
-        for guild in self.guilds:
-            self.tree.copy_global_to(guild=guild)
-            await self.tree.sync(guild=guild)
+    async def on_guild_join(self, guild):
+        await update_slash_commands(self)
 
 
 # Criação do objeto client da classe MusicBot e definição da guilda do bot
