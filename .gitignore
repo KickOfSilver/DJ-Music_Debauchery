@@ -1,7 +1,14 @@
-/.venv
-/backup
-/commands/old
-ffmpeg.exe
+# Ignorar arquivos gerados pelo Python
+__pycache__/
+*.pyc
+# Ignorar diretório da virtualenv
+.venv/
+
+# Arquivos irrelevantes
+backup/
+locales/
+*.exe
+
+# Ignorar arquivo de configuração com informações sensíveis
 config.json
-__pycache__
-test.py
+

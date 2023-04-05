@@ -1,4 +1,0 @@
-# mensagens_pt.txt
-voz_necessaria = Você precisa estar em um canal de voz para usar este comando.
-bot_usado_outro_canal = O bot já está sendo usado em outro canal de voz. Você precisa estar no mesmo canal de voz que o bot para usar este comando!
-permissao_bot = O bot não tem permissão para entrar neste canal de voz!
