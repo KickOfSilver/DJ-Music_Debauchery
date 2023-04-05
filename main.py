@@ -2,12 +2,12 @@ import os
 import json
 import discord
 from discord import app_commands
-from bot.functions.slash_registration import update_slash_commands
 
 # Importando funções e comandos personalizados
-from bot.functions.commands_check import *
-from bot.functions.bot_profile import *
-from bot.commands.play import *
+from bot.functions.MyBot.profile import set_bot_activity
+from bot.functions.commands.check import check_command_message
+from bot.functions.commands.registration import update_slash_commands
+from bot.commands.play import music_search
 
 # Carregando as informações de configuração do arquivo config.json
 with open("config.json") as f:
