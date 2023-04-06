@@ -5,10 +5,10 @@ from datetime import datetime
 from discord import app_commands
 
 # Importando funções e comandos personalizados
-from bot.functions.MyBot.profile import set_bot_activity
-from bot.functions.commands.check import check_command_message
-from bot.functions.commands.registration import update_slash_commands
-from bot.commands.search import music_search
+from profield.about import set_bot_activity
+from validations.check import check_command_message
+from validations.registration import update_slash_commands
+from actions.search import music_search
 
 # Carregando as informações de configuração do arquivo config.json
 with open("config.json") as f:
